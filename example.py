@@ -1,8 +1,9 @@
-
 import tkinter as tk
 from tkinter import ttk
-from get_data import data
+from tkcalendar import DateEntry
+import load_data as data 
 import events_handler as action
+
 root = tk.Tk()
 root.title("Forest")
 root.option_add("*tearOff", False) # This is always a good idea
@@ -17,136 +18,129 @@ root.rowconfigure(index=2, weight=1)
 
 # Create a style
 style = ttk.Style(root)
-
 # Import the tcl file
 root.tk.call("source", "forest-light.tcl")
-
+root.tk.call("source", "forest-dark.tcl")
 # Set the theme with the theme_use method
-ttk.Style().theme_use('forest-light')
-
-# Create lists for the Comboboxes
-option_menu_list = ["", "OptionMenu", "Option 1", "Option 2"]
-combo_list = ["Combobox", "Editable item 1", "Editable item 2"]
-readonly_combo_list = ["Readonly combobox", "Item 1", "Item 2"]
-
-# Create control variables
-a = tk.BooleanVar()
-b = tk.BooleanVar(value=True)
-c = tk.BooleanVar()
-d = tk.IntVar(value=2)
-e = tk.StringVar(value=option_menu_list[1])
-f = tk.BooleanVar()
-g = tk.DoubleVar(value=75.0)
-h = tk.BooleanVar()
-
-# Create a Frame for the Checkbuttons
-check_frame = ttk.LabelFrame(root, text="Checkbuttons", padding=(20, 10))
-check_frame.grid(row=0, column=0, padx=(20, 10), pady=(20, 10), sticky="nsew")
-
-# Checkbuttons
-# Checkbuttons for consultant skills
-checkbuttons_skill = [] 
-constrol_vars = []
-for index,value in enumerate(range(10)):
-    a = tk.BooleanVar(value=True)
-    constrol_vars.append(a)
-    check = ttk.Checkbutton(check_frame, text="Unchecked", variable=a)
-    check.grid(row=index, column=0, padx=5, pady=2, sticky="nsew")
-    checkbuttons_skill.append(check)
+ttk.Style().theme_use('forest-dark')
 
 
-
-# Separator
-separator = ttk.Separator(root)
-separator.grid(row=1, column=0, padx=(20, 10), pady=10, sticky="ew")
-
-# Create a Frame for the Radiobuttons
-radio_frame = ttk.LabelFrame(root, text="Radiobuttons", padding=(20, 10))
-radio_frame.grid(row=2, column=0, padx=(20, 10), pady=10, sticky="nsew")
-
-# Radiobuttons
-radio_1 = ttk.Radiobutton(radio_frame, text="Deselected", variable=d, value=1)
-radio_1.grid(row=0, column=0, padx=5, pady=10, sticky="nsew")
-radio_2 = ttk.Radiobutton(radio_frame, text="Selected", variable=d, value=2)
-radio_2.grid(row=1, column=0, padx=5, pady=10, sticky="nsew")
-radio_3 = ttk.Radiobutton(radio_frame, text="Mixed")
-radio_3.state(["alternate"])
-radio_3.grid(row=2, column=0, padx=5, pady=10, sticky="nsew")
-radio_4 = ttk.Radiobutton(radio_frame, text="Disabled", state="disabled")
-radio_4.grid(row=3, column=0, padx=5, pady=10, sticky="nsew")
 
 # Create a Frame for input widgets
 widgets_frame = ttk.Frame(root, padding=(0, 0, 0, 10))
-widgets_frame.grid(row=0, column=1, padx=10, pady=(30, 10), sticky="nsew", rowspan=3)
+widgets_frame.grid(row=0, column=0, padx=10, pady=(30, 10), sticky="nsew", rowspan=3)
 widgets_frame.columnconfigure(index=0, weight=1)
 
-# Label
-label = ttk.Label(widgets_frame, text="Full Name")
-label.grid(row=0, column=0, padx=5, pady=(0, 10), sticky="w")
-# Entry
-entry = ttk.Entry(widgets_frame)
-entry.insert(0, "")
-entry.grid(row=0, column=1, padx=5, pady=(0, 10), sticky="ew")
+# Full name Label
+full_name_label = ttk.Label(widgets_frame, text="Full Name")
+full_name_label.grid(row=0, column=0, padx=5, pady=(0, 10), sticky="w")
+# Full name Entry
+full_name_entry = ttk.Entry(widgets_frame)
+full_name_entry.grid(row=0, column=1, padx=5, pady=(0, 10), sticky="ew")
 
-# Label1
-label1 = ttk.Label(widgets_frame, text="Full Name")
-label1.grid(row=1, column=0, padx=5, pady=(0, 10), sticky="w")
-# Entry2
-entry1 = ttk.Entry(widgets_frame)
-entry1.insert(0, "")
-entry1.grid(row=1, column=1, padx=5, pady=(0, 10), sticky="ew")
+# Education Label
+education_label = ttk.Label(widgets_frame, text="Education")
+education_label.grid(row=1, column=0, padx=5, pady=(0, 10), sticky="w")
+# Education Entry
+education_entry = ttk.Entry(widgets_frame)
+education_entry.grid(row=1, column=1, padx=5, pady=(0, 10), sticky="ew")
 
-# Configure column weights for resizing
-widgets_frame.columnconfigure(0, weight=0)
-widgets_frame.columnconfigure(1, weight=1)
-#group all entries in a list
-entries = [entry, entry1]
-# # Spinbox
-# spinbox = ttk.Spinbox(widgets_frame, from_=0, to=100)
-# spinbox.insert(0, "Spinbox")
-# spinbox.grid(row=1, column=1, padx=5, pady=10, sticky="ew")
+# Graduation Label
+graduation_label = ttk.Label(widgets_frame, text="Graduation year")
+graduation_label.grid(row=2, column=0, padx=5, pady=(0, 10), sticky="w")
+# Education Entry
+graduation_entry = ttk.Entry(widgets_frame)
+graduation_entry.grid(row=2, column=1, padx=5, pady=(0, 10), sticky="ew")
 
-# # Combobox
-# combobox = ttk.Combobox(widgets_frame, values=combo_list)
-# combobox.current(0)
-# combobox.grid(row=2, column=1, padx=5, pady=10,  sticky="ew")
+# Years of Experience Label
+years_of_exp_label = ttk.Label(widgets_frame, text="Years of Experience")
+years_of_exp_label.grid(row=3, column=0, padx=5, pady=(0, 10), sticky="w")
+# Years of Experience Entry
+years_of_exp_entry = ttk.Entry(widgets_frame)
+years_of_exp_entry.grid(row=3, column=1, padx=5, pady=(0, 10), sticky="ew")
+years_of_exp_entry.config(validate="key", validatecommand=(root.register(action.validate_numeric_entry), "%P"))
 
-# # Read-only combobox
-# readonly_combo = ttk.Combobox(widgets_frame, state="readonly", values=readonly_combo_list)
-# readonly_combo.current(0)
-# readonly_combo.grid(row=3, column=1, padx=5, pady=10,  sticky="ew")
+# Automotive Experience Label
+automative_exp_label = ttk.Label(widgets_frame, text="Automotive Experience")
+automative_exp_label.grid(row=4, column=0, padx=5, pady=(0, 10), sticky="w")
+# Automotive Experience Entry
+automative_exp_entry = ttk.Entry(widgets_frame)
+automative_exp_entry.grid(row=4, column=1, padx=5, pady=(0, 10), sticky="ew")
+automative_exp_entry.config(validate="key", validatecommand=(root.register(action.validate_numeric_entry), "%P"))
 
-# # Menu for the Menubutton
-# menu = tk.Menu(widgets_frame)
-# menu.add_command(label="Menu item 1")
-# menu.add_command(label="Menu item 2")
-# menu.add_separator()
-# menu.add_command(label="Menu item 3")
-# menu.add_command(label="Menu item 4")
+# Interviewer Label
+interviewer_label = ttk.Label(widgets_frame, text="Interviewer name")
+interviewer_label.grid(row=5, column=0, padx=5, pady=(0, 10), sticky="w")
+# Interviewer Entry
+interviewer_entry = ttk.Entry(widgets_frame)
+interviewer_entry.grid(row=5, column=1, padx=5, pady=(0, 10), sticky="ew")
 
-# # Menubutton
-# menubutton = ttk.Menubutton(widgets_frame, text="Menubutton", menu=menu, direction="below")
-# menubutton.grid(row=4, column=0, padx=5, pady=10, sticky="nsew")
+# Interview Date Label
+interview_date_label = ttk.Label(widgets_frame, text="Interview Date")
+interview_date_label.grid(row=6, column=0, padx=5, pady=(0, 10), sticky="w")
+# Interview Date Entry
+interview_date_entry = DateEntry(widgets_frame, date_pattern="yyyy-mm-dd")
+interview_date_entry.grid(row=6, column=1, padx=5, pady=(0, 10), sticky="ew")
 
-# # OptionMenu
-# optionmenu = ttk.OptionMenu(widgets_frame, e, *option_menu_list)
-# optionmenu.grid(row=5, column=0, padx=5, pady=10, sticky="nsew")
+# Combobox avilability
+availability_label = ttk.Label(widgets_frame, text="Availability")
+availability_label.grid(row=7, column=0, padx=5, pady=(0, 10), sticky="w")
+availability_list = data.get_availability_list()
+availability_combobox = ttk.Combobox(widgets_frame, values=availability_list)
+availability_combobox.current(1)
+availability_combobox.grid(row=7, column=1, padx=5, pady=(0, 10), sticky="ew")
 
-# # Button
-# button = ttk.Button(widgets_frame, text="Button")
-# button.grid(row=6, column=0, padx=5, pady=10, sticky="nsew")
+# Availability Check Date Label
+availability_check_date_label = ttk.Label(widgets_frame, text="Availability Check Date")
+availability_check_date_label.grid(row=8, column=0, padx=5, pady=(0, 10), sticky="w")
+# Availability Check Date Entry
+availability_check_date_entry = DateEntry(widgets_frame, date_pattern="yyyy-mm-dd")
+availability_check_date_entry.grid(row=8, column=1, padx=5, pady=(0, 10), sticky="ew")
+
+# Feedback Label
+feedback_label = ttk.Label(widgets_frame, text="Feedback")
+feedback_label.grid(row=9, column=0, padx=5, pady=(0, 10), sticky="w")
+# Feedback Text Entry
+feedback_text = tk.Text(widgets_frame, height=5, width= 50)
+feedback_text.grid(row=9, column=1, padx=5, pady=(0, 10), sticky="ew")
+
+# Comment Label
+comment_label = ttk.Label(widgets_frame, text="Comment")
+comment_label.grid(row=10, column=0, padx=5, pady=(0, 10), sticky="w")
+# Comment Text Entry
+comment_text = tk.Text(widgets_frame, height=5, width=50)
+comment_text.grid(row=10, column=1, padx=5, pady=(0, 10), sticky="ew", columnspan=2)
+
+# Consultants skills 
+# widgets_frame.columnconfigure(0, weight=0)
+check_frame = ttk.LabelFrame(root, text="Consultant Skills", height=50)
+check_frame.grid(row=0, column=1, padx=(20, 10), pady=(20, 10), sticky="nsew")
+checkbuttons_skill = []
+for index, value in enumerate(data.get_consultant_skills()):
+    a = tk.BooleanVar(value=False)
+    check = ttk.Checkbutton(check_frame, text=value[1], variable=a)
+    check.grid(row=index, column=0, padx=(5, 5), pady=10, sticky="nsew")
+    checkbuttons_skill.append((check,a))
+    
+#group all entries in a dictionnary
+entries = {
+    "full_name": full_name_entry,
+    "education": education_entry,
+    "graduation_year":graduation_entry,
+    "years_of_exp": years_of_exp_entry,
+    "automative_exp": automative_exp_entry,
+    "skills":checkbuttons_skill,
+
+    "interviewer":interviewer_entry,
+    "interview_date":interview_date_entry,
+    "availability":availability_combobox,
+    "availability_check_date": availability_check_date_entry,
+    'feed_back': feedback_text,
+    'comment': comment_text,
+
+}
 
 
-
-# # Togglebutton
-# button = ttk.Checkbutton(widgets_frame, text="Togglebutton", style="ToggleButton")
-# button.grid(row=8, column=0, padx=5, pady=10, sticky="nsew")
-
-# # Switch
-# switch = ttk.Checkbutton(widgets_frame, text="Switch", style="Switch")
-# switch.grid(row=9, column=0, padx=5, pady=10, sticky="nsew")
-
-# Panedwindow
 paned = ttk.PanedWindow(root)
 paned.grid(row=0, column=2, pady=(25, 5), sticky="nsew", rowspan=3)
 
@@ -163,7 +157,7 @@ treeScroll = ttk.Scrollbar(treeFrame)
 treeScroll.pack(side="right", fill="y")
 
 # Treeview
-treeview = ttk.Treeview(treeFrame, selectmode="extended", yscrollcommand=treeScroll.set, columns=(1, 2), height=12)
+treeview = ttk.Treeview(treeFrame, selectmode="extended", yscrollcommand=treeScroll.set, columns=(1, 2, 3, 4), height=12)
 treeview.pack(expand=True, fill="both")
 treeScroll.config(command=treeview.yview)
 
@@ -171,15 +165,18 @@ treeScroll.config(command=treeview.yview)
 treeview.column("#0", anchor="w", width=60)
 treeview.column(1, anchor="w", width=120)
 treeview.column(2, anchor="w", width=120)
+treeview.column(3, anchor="w", width=120)
+treeview.column(4, anchor="w", width=120)
 
 # Treeview headings
 treeview.heading("#0", text="Pos", anchor="w")
-treeview.heading(1, text="Education", anchor="center")
-treeview.heading(2, text="Years of exp", anchor="center")
+treeview.heading(1, text="Full name", anchor="w")
+treeview.heading(2, text="Education", anchor="w")
+treeview.heading(3, text="Years of exp", anchor="w")
+treeview.heading(4, text="Automative exp", anchor="w")
 
 # Define treeview data
-treeview_data = data
-
+_, treeview_data = data.get_consultants()
 
 # Insert treeview data
 for item in treeview_data:
@@ -188,16 +185,31 @@ for item in treeview_data:
         treeview.item(item[2], open=True) # Open parents
 
 # Select and scroll
-treeview.selection_set(1)
-treeview.see(4)
-
+treeview.selection_set(0)
+treeview.see(0)
 # Bind event handler to row click event
 treeview.bind("<<TreeviewSelect>>",lambda event: action.handle_row_click(event, treeview, entries))
 
-# Accentbutton
-accentbutton = ttk.Button(widgets_frame, text="Accentbutton", style="Accent.TButton", 
-                          command=lambda:action.delete_data((treeview.index(treeview.selection()))))
-accentbutton.grid(row=7, column=0, padx=5, pady=10, sticky="nsew")
+#create a frame for buttons
+action_frame = ttk.LabelFrame(root, text=" Action ", padding=(20, 10))
+action_frame.grid(row=1, column=1, padx=(20, 10), pady=(20, 10), sticky="nsew")
+# add Button
+add_button = ttk.Button(action_frame, text="Save consultant infos",style="Accent.TButton", command=lambda:action.add_data(treeview, entries))
+add_button.grid(row=0, column=0, padx=5, pady=5, sticky="nsew")
+# update Button
+update_button = ttk.Button(action_frame, text="Update consultant infos",
+                           command=lambda:action.update_data(treeview, entries))
+update_button.grid(row=1, column=0, padx=5, pady=5, sticky="nsew")
+# delete Button 
+delete_button = ttk.Button(action_frame, text="Remove consultant",
+                          command=lambda:action.delete_data(treeview))
+delete_button.grid(row=3, column=0, padx=5, pady=5, sticky="nsew")
+
+
+
+
+
+
 
 # Pane #2
 pane_2 = ttk.Frame(paned)
@@ -212,19 +224,17 @@ tab_1.columnconfigure(index=0, weight=1)
 tab_1.columnconfigure(index=1, weight=1)
 tab_1.rowconfigure(index=0, weight=1)
 tab_1.rowconfigure(index=1, weight=1)
-notebook.add(tab_1, text="Tab 1")
+notebook.add(tab_1, text="Search for consultant")
 
-# Scale
-scale = ttk.Scale(tab_1, from_=100, to=0, variable=g, command=lambda event: g.set(scale.get()))
-scale.grid(row=0, column=0, padx=(20, 10), pady=(20, 0), sticky="ew")
+# Search area 
+search_label = ttk.Label(tab_1, text="Search consultants by keyword ")
+search_label.grid(row=0, column=0, padx=5, pady=(0, 20), sticky="w")  # Reduced pady to 2
+search_entry = ttk.Entry(tab_1)
+search_entry.grid(row=0, column=1, padx=5, pady=(0, 20), sticky="ew")  # Reduced pady to 2
+search_entry.bind("<KeyRelease>", lambda event: action.filter_data(event, treeview, search_entry))
 
-# Progressbar
-progress = ttk.Progressbar(tab_1, value=0, variable=g, mode="determinate")
-progress.grid(row=0, column=1, padx=(10, 20), pady=(20, 0), sticky="ew")
 
-# Label
-label = ttk.Label(tab_1, text="Forest ttk theme", justify="center")
-label.grid(row=1, column=0, pady=10, columnspan=2)
+
 
 # Tab #2
 tab_2 = ttk.Frame(notebook)
@@ -247,5 +257,9 @@ x_cordinate = int((root.winfo_screenwidth()/2) - (root.winfo_width()/2))
 y_cordinate = int((root.winfo_screenheight()/2) - (root.winfo_height()/2))
 root.geometry("+{}+{}".format(x_cordinate, y_cordinate))
 
+# Register the on_close function to be called when the window is closed
+root.protocol("WM_DELETE_WINDOW", lambda: action.on_close(root))
 # Start the main loop
 root.mainloop()
+
+
